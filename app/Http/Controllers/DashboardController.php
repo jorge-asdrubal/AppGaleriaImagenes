@@ -16,7 +16,7 @@ class DashboardController extends Controller
     }
 
     private function get_images_number(){
-        $images = Image::all();
+        $images = Image::where('state', '=', '1')->get();
         return count($images);
     }
 

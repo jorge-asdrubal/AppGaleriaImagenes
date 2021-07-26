@@ -31,7 +31,7 @@
                 <div class="card bg-dark text-white mb-4">
                     <div class="card-body">{{ $images_number }}</div>
                     <div class="card-footer d-flex justify-content-start">
-                        <div class="small text-white">Total images uploaded by all</div>
+                        <div class="small text-white">Total images published by all</div>
                     </div>
                 </div>
             </div>

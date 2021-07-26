@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image as InterventionImage;
+use Illuminate\Support\Str;
 use App\Models\Image;
 
 class ImageController extends Controller
@@ -22,7 +23,7 @@ class ImageController extends Controller
     public function save(Request $request){
         $this->validations($request);
         try {
-            $txtImage = Auth::user()->name.'.'.time().'.'.$request->image->extension();
+            $txtImage = Str::random(10).'.'.time().'.'.$request->image->extension();
             InterventionImage::make($request->image)
                 ->resize(800, null, function ($constraint) {
                     $constraint->aspectRatio();

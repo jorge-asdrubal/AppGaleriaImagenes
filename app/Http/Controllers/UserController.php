@@ -53,13 +53,15 @@ class UserController extends Controller
             if($request->password == null){
                 $user->update([
                     'email' => $request->email,
-                    'name' => $request->name
+                    'name' => $request->name,
+                    'id_rol' => $request->id_rol
                 ]);
             }else{
                 $user->update([
                     'email' => $request->email,
                     'name' => $request->name,
-                    'password' => Hash::make($request->password)
+                    'password' => Hash::make($request->password),
+                    'id_rol' => $request->id_rol
                 ]);
             }
             return redirect()->route('users.index')->with('success', 'Successfully edited');
