@@ -11,7 +11,7 @@ use App\Models\Image;
 class ImageController extends Controller
 {
     public function index(){
-        $images = Image::where('id_user', '=', Auth::user()->id_user)->paginate(10);
+        $images = Image::where('id_user', '=', Auth::user()->id_user)->orderBy('created_at', 'desc')->paginate(10);
         return view('admin.image.images', compact("images"));
     }
 
@@ -43,7 +43,7 @@ class ImageController extends Controller
         try {
             $image->delete();
             unlink($image->url);
-            return redirect()->route('image.index')->with('success', null);
+            return redirect()->route('image.index')->with('success', 'deleted');
         } catch (Exception $e) {
             return redirect()->route('image.index')->withErrors('An unexpected error ocurred: '.$e->getMessage());
         }

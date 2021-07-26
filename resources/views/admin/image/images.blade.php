@@ -56,7 +56,7 @@
                             Error ocurred
                         </div>
                         <div class="card-body">
-                            @foreach ($errors->all() as $item)
+                            @foreach ($errors->all() as $error)
                                 <div class="alert alert-danger" role="alert">
                                     {{ $error }}
                                 </div>
@@ -79,7 +79,7 @@
                             </div>
                             <img src="{{ asset($image->url) }}" class="card-img-top" alt="Imagen">
                             <div class="card-footer">
-                                <form class="d-inline-block" id="form-delete" action="{{ route('image.delete') }}" method="post">
+                                <form class="d-inline-block form-delete" action="{{ route('image.delete') }}" method="post">
                                     @csrf
                                     <input type="hidden" name="id_image" value="{{ $image->id_image }}">
                                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
@@ -205,7 +205,7 @@
     @endif
 
     <script>
-        $('#form-delete').submit(function(e){
+        $('.form-delete').submit(function(e){
             e.preventDefault();
             Swal.fire({
                 title: 'Are you sure?',
