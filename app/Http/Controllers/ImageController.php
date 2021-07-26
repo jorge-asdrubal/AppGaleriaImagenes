@@ -11,17 +11,12 @@ use App\Models\Image;
 class ImageController extends Controller
 {
     public function index(){
-        $images = Image::where('id_user', '=', Auth::user()->id_user)->get();
+        $images = Image::where('id_user', '=', Auth::user()->id_user)->paginate(10);
         return view('admin.image.images', compact("images"));
     }
 
     public function view_create(){
         return view('admin.image.create_image');
-    }
-
-    public function view_edit($id){
-        $image = Image::find($id);
-        return view('admin.image.edit_image', compact("image"));
     }
 
     public function save(Request $request){
@@ -42,21 +37,44 @@ class ImageController extends Controller
         }
     }
 
-    // public function update(Request $request){
-    //     $this->validations($request);
-    //     $gallery = Gallery::find($request->id_gallery);
-    //     if($gallery == null) return redirect()->route('gallery.index')->withErrors('Gallery not found');
-    //     try {
-    //         $gallery->update([
-    //             'name' => $request->name,
-    //             'description' => $request->description
-    //         ]);
-    //         return redirect()->route('gallery.index')->with('success', 'Successfully edited');
-    //     } catch (Exception $e) {
-    //         return redirect()->route('gallery.index')->withErrors('An unexpected error ocurred: '.$e->getMessage());
-    //     }
-    // }
+    public function delete(Request $request){
+        $image = Image::find($request->id_image);
+        if ($image == null) return redirect()->route('image.index')->withErrors('Image not found');
+        try {
+            $image->delete();
+            unlink($image->url);
+            return redirect()->route('image.index')->with('success', null);
+        } catch (Exception $e) {
+            return redirect()->route('image.index')->withErrors('An unexpected error ocurred: '.$e->getMessage());
+        }
+    }
 
+    public function public(Request $request){
+        $image = Image::find($request->id_image);
+        if($image == null) return redirect()->route('image.index')->withErrors('Image not found');
+        try {
+            $image->update([
+                'state' => 1
+            ]);
+            return redirect()->route('image.index');
+        } catch (Exception $e) {
+            return redirect()->route('image.index')->withErrors('An undexpected error ocurred: '.$e->getMessage());
+        }
+    }
+
+    public function private(Request $request){
+        $image = Image::find($request->id_image);
+        if($image == null) return redirect()->route('image.index')->withErrors('Image not found');
+        try {
+            $image->update([
+                'state' => 0
+            ]);
+            return redirect()->route('image.index');
+        } catch (Exception $e) {
+            return redirect()->route('image.index')->withErrors('An undexpected error ocurred: '.$e->getMessage());
+        }
+    }
+    
     private function validations(Request $request){
         $request->validate([
             'image' => 'required|image|mimes:jpg,png,jpeg|max:5120'

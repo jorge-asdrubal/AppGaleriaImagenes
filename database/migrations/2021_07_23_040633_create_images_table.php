@@ -17,6 +17,7 @@ class CreateImagesTable extends Migration
             $table->id('id_image');
             $table->string('url', 255);
             $table->foreignId('id_user')->references('id_user')->on('users')->onUpdate('cascade');
+            $table->boolean('state')->default(0);
             $table->timestamps();
         });
     }

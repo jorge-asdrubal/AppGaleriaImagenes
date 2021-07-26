@@ -55,8 +55,9 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/image', [ImageController::class, 'index'])->name('image.index');
     Route::get('/image/create', [ImageController::class, 'view_create'])->name('image.create');
     Route::post('/image/save', [ImageController::class, 'save'])->name('image.save');
-    Route::get('/image/edit/{id}', [ImageController::class, 'view_edit'])->name('image.edit');
-    Route::post('/image/update', [ImageController::class, 'update'])->name('image.update');
+    Route::post('/image/delete', [ImageController::class, 'delete'])->name('image.delete');
+    Route::post('/image/public', [ImageController::class, 'public'])->name('image.public');
+    Route::post('/image/private', [ImageController::class, 'private'])->name('image.private');
 
     // Gallery routes
     Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.index');

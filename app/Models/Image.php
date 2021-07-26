@@ -12,6 +12,7 @@ class Image extends Model
     protected $table = "images";
     protected $fillable = [
         'url',
-        'id_user'
+        'id_user',
+        'state'
     ];
 }
